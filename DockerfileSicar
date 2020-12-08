@@ -62,4 +62,4 @@ COPY --from=builder /app/dist /var/play/car/federal/sicar/backend
 
 EXPOSE 9003/tcp
 
-#para executar docker run -it -p 9001:9003  sicar:1.0
+#para executar docker run --name sicar -it -p 9003:9003  sicar:1.0
