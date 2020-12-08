@@ -1,5 +1,5 @@
 #trocar o ubuntu 18.04lts na imagem base
-FROM ambsicar:1.0 as builder
+FROM jpbp/ambientesicar:1.0 as builder
 
 WORKDIR /app
 
@@ -58,8 +58,8 @@ RUN mkdir -p arquivos/integracao_sfb/shapefiles/
 COPY --from=builder /app/dist /var/play/car/federal/sicar/backend/
 
 
-ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /var/play/car/federal/sicar/backend
+#ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /var/play/car/federal/sicar/backend
 
-EXPOSE 9001/tcp
+EXPOSE 9003/tcp
 
-#para executar docker run -it -p 9001:9003  sicar:1.0
+#para executar docker run --name sicar -it -p 9003:9003  sicar:1.0
