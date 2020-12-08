@@ -7,6 +7,7 @@ RUN ssh-keyscan -H https://gitlab.ti.lemaf.ufla.br/ >> ~/.ssh/known_hosts
 #RUN git submodule add git@gitlab.ti.lemaf.ufla.br:car-federal/car-ui-components.git car-ui-components
 RUN git ls-remote --tags --heads git@gitlab.ti.lemaf.ufla.br:utilitarios/mapa-geo-car-wc.git
 COPY ./ ./ 
+RUN RUN unzip backend/lib.zip -d backend
 RUN cd backend && JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play deps
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && chown -R $(whoami) $HOME/.npm && npm install grunt -g
 RUN cd frontend && npm install && bower install 
