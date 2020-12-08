@@ -60,6 +60,6 @@ COPY --from=builder /app/dist /var/play/car/federal/sicar/backend
 
 #ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /var/play/car/federal/sicar/backend
 
-EXPOSE 9001/tcp
+EXPOSE 9003/tcp
 
 #para executar docker run -it -p 9001:9003  sicar:1.0
