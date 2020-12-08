@@ -1,0 +1,65 @@
+#trocar o ubuntu 18.04lts na imagem base
+FROM ambsicar:1.0 as builder
+
+WORKDIR /app
+
+COPY backend backend
+
+COPY frontend frontend
+COPY frontend_gestao_acesso frontend_gestao_acesso
+COPY car-ui-components car-ui-components
+COPY site site
+
+# build do frontend grunt --save-dev pode dar problema
+#zipar as pastar node_modules e o bower component em todos os front
+RUN echo '{ "allow_root": true }' > /root/.bowerrc && chown -R $(whoami) $HOME/.npm && npm install grunt -g
+RUN cd site && npm install  
+RUN cd frontend_gestao_acesso && npm install && grunt 
+
+RUN cd frontend && npm install && grunt build
+#para pasta car-ui-comp (git submodule init,git submodule update)
+# build do backend e grunt da bagaca
+# salvar o arquivo pdf-0.9
+RUN wget https://www.playframework.com/modules/pdf-0.9.zip -O /tmp/pdf-0.9.zip
+RUN unzip backend/lib.zip -d backend
+RUN mkdir -p backend/modules/pdf-0.9 && cd backend && ls
+RUN unzip /tmp/pdf-0.9.zip -d backend/modules/pdf-0.9
+RUN echo "/opt/play-1.2.7/modules/secure" > backend/modules/secure.txt
+RUN cp -Rf backend dist
+#RUN echo "@include.production = application_java2.conf" >> /app/dist/conf/application.conf
+
+#acertat 18.04
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+#deixar só apt 
+RUN apt-get update && apt-get upgrade -y 
+RUN apt install python-minimal -y 
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && apt-get update && apt-get install apt-utils tzdata -y
+
+RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+COPY --from=builder /opt/jdk1.7.0_80 /opt/jdk1.7.0_80
+
+COPY --from=builder /opt/play-1.2.7 /opt/play-1.2.7/
+
+RUN mkdir /var/play
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/analise
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/demonstrativo
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/portal_seguranca/oficios_solicitacao/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/portal_seguranca/planilhas/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/portal_seguranca/termo_compromisso/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/documentos_cancelamento/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/imovel_car/sucesso/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/documentos_cancelamento/
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/centralMensagem/anexos
+RUN mkdir -p /var/play/car/federal/sicar/backend/arquivos/integracao_sfb/shapefiles/
+COPY --from=builder /app/dist /var/play/car/federal/sicar/backend
+
+
+ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /var/play/car/federal/sicar/backend
+
+EXPOSE 9001/tcp
+
+#para executar docker run -it -p 9001:9003  sicar:1.0
