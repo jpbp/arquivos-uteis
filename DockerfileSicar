@@ -1,5 +1,5 @@
 #trocar o ubuntu 18.04lts na imagem base
-FROM ambsicar:1.0 as builder
+FROM jpbp/ambientesicar:1.0 as builder
 
 WORKDIR /app
 
