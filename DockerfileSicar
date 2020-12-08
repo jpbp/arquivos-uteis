@@ -45,16 +45,16 @@ COPY --from=builder /opt/jdk1.7.0_80 /opt/jdk1.7.0_80
 COPY --from=builder /opt/play-1.2.7 /opt/play-1.2.7/
 
 RUN mkdir -p /var/play/car/federal/sicar/backend/
-RUN mkdir -p arquivos/analise/
-RUN mkdir -p arquivos/demonstrativo/
-RUN mkdir -p arquivos/portal_seguranca/oficios_solicitacao/
-RUN mkdir -p arquivos/portal_seguranca/planilhas/
-RUN mkdir -p arquivos/portal_seguranca/termo_compromisso/
-RUN mkdir -p arquivos/documentos_cancelamento/
-RUN mkdir -p arquivos/imovel_car/sucesso/
-RUN mkdir -p arquivos/documentos_cancelamento/
-RUN mkdir -p arquivos/centralMensagem/anexos/
-RUN mkdir -p arquivos/integracao_sfb/shapefiles/
+RUN mkdir -p /arquivos/analise/
+RUN mkdir -p /arquivos/demonstrativo/
+RUN mkdir -p /arquivos/portal_seguranca/oficios_solicitacao/
+RUN mkdir -p /arquivos/portal_seguranca/planilhas/
+RUN mkdir -p /arquivos/portal_seguranca/termo_compromisso/
+RUN mkdir -p /arquivos/documentos_cancelamento/
+RUN mkdir -p /arquivos/imovel_car/sucesso/
+RUN mkdir -p /arquivos/documentos_cancelamento/
+RUN mkdir -p /arquivos/centralMensagem/anexos/
+RUN mkdir -p /arquivos/integracao_sfb/shapefiles/
 COPY --from=builder /app/dist /var/play/car/federal/sicar/backend/
 
 
@@ -62,4 +62,3 @@ COPY --from=builder /app/dist /var/play/car/federal/sicar/backend/
 
 EXPOSE 9003/tcp
 
-#para executar docker run --name sicar -it -p 9003:9003  sicar:1.0
