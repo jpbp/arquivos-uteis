@@ -13,10 +13,10 @@ COPY site site
 # build do frontend grunt --save-dev pode dar problema
 #zipar as pastar node_modules e o bower component em todos os front
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && chown -R $(whoami) $HOME/.npm && npm install grunt -g
-RUN cd site && npm install  
-RUN cd frontend_gestao_acesso && npm install && grunt 
+#RUN cd site && npm install && bower install && grunt  
+#RUN cd frontend_gestao_acesso && npm install  && bower install && grunt 
 
-RUN cd frontend && npm install && grunt build
+#RUN cd frontend && npm install && bower install && grunt
 #para pasta car-ui-comp (git submodule init,git submodule update)
 # build do backend e grunt da bagaca
 # salvar o arquivo pdf-0.9
@@ -25,11 +25,7 @@ RUN unzip backend/lib.zip -d backend
 RUN mkdir -p backend/modules/pdf-0.9 && cd backend && ls
 RUN unzip /tmp/pdf-0.9.zip -d backend/modules/pdf-0.9
 RUN echo "/opt/play-1.2.7/modules/secure" > backend/modules/secure.txt
-RUN cp -Rf backend dist
 #RUN echo "@include.production = application_java2.conf" >> /app/dist/conf/application.conf
-
-#acertat 18.04
-FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 #deixar só apt 
@@ -39,10 +35,6 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN dpkg-reconfigure -f noninteractive tzdata
-
-COPY --from=builder /opt/jdk1.7.0_80 /opt/jdk1.7.0_80
-
-COPY --from=builder /opt/play-1.2.7 /opt/play-1.2.7/
 
 RUN mkdir -p /var/play/car/federal/sicar/backend/
 RUN mkdir -p /arquivos/analise/
@@ -55,7 +47,7 @@ RUN mkdir -p /arquivos/imovel_car/sucesso/
 RUN mkdir -p /arquivos/documentos_cancelamento/
 RUN mkdir -p /arquivos/centralMensagem/anexos/
 RUN mkdir -p /arquivos/integracao_sfb/shapefiles/
-COPY --from=builder /app/dist /var/play/car/federal/sicar/backend/
+#COPY /app/dist /var/play/car/federal/sicar/backend/
 
 
 #ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /var/play/car/federal/sicar/backend
