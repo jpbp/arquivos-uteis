@@ -10,13 +10,10 @@ COPY frontend_gestao_acesso frontend_gestao_acesso
 COPY car-ui-components car-ui-components
 COPY site site
 
-# build do frontend grunt --save-dev pode dar problema
-#zipar as pastar node_modules e o bower component em todos os front
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && chown -R $(whoami) $HOME/.npm && npm install grunt -g
 RUN cd site && npm install
 RUN cd frontend_gestao_acesso && npm install
 RUN cd frontend && npm install && bower install && grunt
-#para pasta car-ui-comp (git submodule init,git submodule update)
 # build do backend e grunt da bagaca
 # salvar o arquivo pdf-0.9
 RUN wget https://www.playframework.com/modules/pdf-0.9.zip -O /tmp/pdf-0.9.zip
@@ -25,7 +22,6 @@ RUN unzip /tmp/pdf-0.9.zip -d backend/modules/pdf-0.9
 RUN echo "/opt/play-1.2.7/modules/secure" > backend/modules/secure.txt
 
 ENV DEBIAN_FRONTEND=noninteractive
-#deixar só apt 
 RUN apt-get update && apt-get upgrade -y 
 RUN apt install python-minimal -y 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && apt-get update && apt-get install apt-utils tzdata -y
