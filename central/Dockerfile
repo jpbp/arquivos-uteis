@@ -8,5 +8,5 @@ RUN git ls-remote --tags --heads git@gitlab.ti.lemaf.ufla.br:utilitarios/mapa-ge
 COPY ./ ./ 
 RUN echo '{ "allow_root": true }' > /root/.bowerrc && chown -R $(whoami) $HOME/.npm && npm install grunt -g
 RUN cd frontend && npm install && bower install 
-#Rodar dentro do container por conta da task watching cd frontend && rm -rf node_modules/grunt-connect-proxy && npm install eventemitter3@0.1.6 && npm install grunt-connect-proxy && grunt --force
+#Rodar dentro do container por conta da task watching cd frontend && rm -rf node_modules/grunt-connect-proxy && npm install eventemitter3@0.1.6 && npm install grunt-connect-proxy && grunt
 #exexutar a aplicação ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.4.5/play run /app/backend
