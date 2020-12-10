@@ -29,16 +29,16 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 RUN dpkg-reconfigure -f noninteractive tzdata
 
-RUN mkdir -p /arquivos/analise/
-RUN mkdir -p /arquivos/demonstrativo/
-RUN mkdir -p /arquivos/portal_seguranca/oficios_solicitacao/
-RUN mkdir -p /arquivos/portal_seguranca/planilhas/
-RUN mkdir -p /arquivos/portal_seguranca/termo_compromisso/
-RUN mkdir -p /arquivos/documentos_cancelamento/
-RUN mkdir -p /arquivos/imovel_car/sucesso/
-RUN mkdir -p /arquivos/documentos_cancelamento/
-RUN mkdir -p /arquivos/centralMensagem/anexos/
-RUN mkdir -p /arquivos/integracao_sfb/shapefiles/
+RUN mkdir -p /app/arquivos/analise/
+RUN mkdir -p /app/arquivos/demonstrativo/
+RUN mkdir -p /app/arquivos/portal_seguranca/oficios_solicitacao/
+RUN mkdir -p /app/arquivos/portal_seguranca/planilhas/
+RUN mkdir -p /app/arquivos/portal_seguranca/termo_compromisso/
+RUN mkdir -p /app/arquivos/documentos_cancelamento/
+RUN mkdir -p /app/arquivos/imovel_car/sucesso/
+RUN mkdir -p /app/arquivos/documentos_cancelamento/
+RUN mkdir -p /app/arquivos/centralMensagem/anexos/
+RUN mkdir -p /app/arquivos/integracao_sfb/shapefiles/
 
 
 #ENTRYPOINT JAVA_HOME=/opt/jdk1.7.0_80 /opt/play-1.2.7/play run /app/backend
