@@ -1,5 +1,5 @@
 #trocar o ubuntu 18.04lts na imagem base
-FROM jpbp/ambientesicar:1.0 as builder
+FROM jpbp/ambientesicar:1.0 
 
 WORKDIR /app
 RUN apt update && apt install nano -y
